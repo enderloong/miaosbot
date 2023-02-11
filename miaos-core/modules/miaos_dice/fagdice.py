@@ -43,8 +43,6 @@ def roll3d6(description=''):
 def rolld100(o, description=''):
     roll = random.randint(1, 100)
 
-    pass
-
 def roll_dice(cmd):
     result = dice_resolver(cmd, True)
     if result is None:
