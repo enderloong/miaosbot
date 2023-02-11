@@ -1,7 +1,5 @@
 
-import datetime
 import json
-import os
 import sys
 import time
 import traceback as tb
@@ -15,7 +13,6 @@ from miaos_utils.status import *
 
 sio = socketio.Server()
 app = socketio.WSGIApp(sio)
-# app = Flask(__name__)
 
 MIAOS_REQUEST_TIMEOUT = 300
 

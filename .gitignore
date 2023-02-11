@@ -1,3 +1,8 @@
 __pycache__
 *.log
 *.json
+*.zip
+miaos-interface/dc2kook
+miaos-interface/discord.py
+miaos-interface/khl.py-0.2.15
+*.out

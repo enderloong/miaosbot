@@ -4,6 +4,7 @@ from io import BytesIO
 import requests
 sys.path.insert(0, os.path.dirname(__file__))
 import modules.miaos_dice.fagdice as fd
+from modules.jrrp.jrrp import getjrrp
 import data.pers.hj_gif as hj_gif
 import modules.miaos_help as miaos_help
 import modules.trpgmap.trpgmap as trpgmap
@@ -23,7 +24,7 @@ class MiaosMessageResolver(object):
         }
         
         if cmd_and_args[0] == 'jrrp':
-            return_data['output_data'] = fd.getjrrp(user_id)
+            return_data['output_data'] = getjrrp(user_id)
             return return_data
 
         if cmd_and_args[0] == 'rf': # roll fag check
@@ -127,7 +128,7 @@ class MiaosMessageResolver(object):
         
         if cmd_and_args[0] == 'jrrp':
             return_data['including_atauthor'] = True
-            return_data['output_data'] = self.atauthor + fd.getjrrp(user_id)
+            return_data['output_data'] = self.atauthor + getjrrp(user_id)
             return return_data
 
         if cmd_and_args[0] == 'rf':
