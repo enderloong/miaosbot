@@ -1,5 +1,5 @@
 import random
-
+import time
 import sys
 
 def isascii_py36(s):
@@ -8,40 +8,71 @@ def isascii_py36(s):
 
 if sys.version_info.minor < 7:
     isascii = isascii_py36
+    
+def get_random_int(minv, maxv, idx=0):
+    rnd_state = random.getstate()
+    random.seed(int(time.time() * 1000 + idx ** idx))
+    result = random.randint(minv, maxv)
+    random.setstate(rnd_state)
+    return result
 
-def rollnd6(n=1):
-    return sum([random.randint(1, 6) for i in range(n)])
+def rollnd6(num_d6=3, extra_dice=0, with_raw_result=False):
+    
+    raw_result = [get_random_int(1, 6, i) for i in range(num_d6 + abs(extra_dice))]
+    raw_result.sort()
+    rollsum = 0
+    rolldes = ''
+    if extra_dice > 0:
+        rollsum = int(sum(raw_result[:num_d6]))
+        rolldes = '+'.join([str(i) for i in raw_result[:num_d6]]) + \
+            ' (drop {})'.format('、'.join([str(i) for i in raw_result[num_d6:]])) + '='
+    elif extra_dice < 0:
+        rollsum = int(sum(raw_result[-1*num_d6:]))
+        rolldes = '+'.join([str(i) for i in raw_result[-1*num_d6:]]) + \
+            ' (drop {})'.format('、'.join([str(i) for i in raw_result[:-1*num_d6]])) + '='
+    else:
+        rollsum = int(sum(raw_result))
+        rolldes = '+'.join([str(i) for i in raw_result]) + '='
+    
+    if with_raw_result:
+        return rollsum, rolldes
+    else:
+        return rollsum
 
-def fag_check(o, description=''):
+def fag_check(o, description='', extra_dice=0):
     if o > 20:
         o = 20
     if o < 0:
         o = 0
-    roll = sum([random.randint(1, 6) for i in range(3)])
+    roll, rolldes = rollnd6(3, extra_dice=extra_dice, with_raw_result=True)
     success_degree = int(max(o - roll, 0))
+    obj_str = '3D6'
+    if   extra_dice > 0:
+        obj_str = '3D6 ({} 小数骰)'.format(extra_dice)
+    elif extra_dice < 0:
+        obj_str = '3D6 ({} 大数骰)'.format(-1 * extra_dice)
     if roll <= 4:
-        result = '投掷 {}: 3D6 ≤ {}: \n投掷结果为 {} \n 重大成功！成功度为{}'.format(description, o, roll, 15)
+        result = '投掷 {}: {} ≤ {}: \n投掷结果为 {} {} \n 重大成功！成功度为{}'.format(description, obj_str, o, rolldes, roll, 15)
     elif roll == 5:
-        result = '投掷 {}: 3D6 ≤ {}: \n投掷结果为 {} \n 成功！成功度为{}'.format(description, o, roll, success_degree)
+        result = '投掷 {}: {} ≤ {}: \n投掷结果为 {} {} \n 成功！成功度为{}'.format(description, obj_str, o, rolldes, roll, success_degree)
     elif roll == 16:
-        result = '投掷 {}: 3D6 ≤ {}: \n投掷结果为 {} \n 成功！'.format(description, o, roll)
+        result = '投掷 {}: {} ≤ {}: \n投掷结果为 {} {} \n 成功！'.format(description, obj_str, o, rolldes, roll)
     elif roll >= 17:
-        result = '投掷 {}: 3D6 ≤ {}: \n投掷结果为 {} \n 重大失败！'.format(description, o, roll)
+        result = '投掷 {}: {} ≤ {}: \n投掷结果为 {} {} \n 重大失败！'.format(description, obj_str, o, rolldes, roll)
     elif roll <= o:
-        result = '投掷 {}: 3D6 ≤ {}: \n投掷结果为 {} \n 成功！成功度为{}'.format(description, o, roll, success_degree)
+        result = '投掷 {}: {} ≤ {}: \n投掷结果为 {} {} \n 成功！成功度为{}'.format(description, obj_str, o, rolldes, roll, success_degree)
     else:
-        result = '投掷 {}: 3D6 ≤ {}: \n投掷结果为 {} \n 失败！'.format(description, o, roll)
+        result = '投掷 {}: {} ≤ {}: \n投掷结果为 {} {} \n 失败！'.format(description, obj_str, o, rolldes, roll)
     return result
         
 def roll3d6(description=''):
-    rolls = [random.randint(1, 6) for i in range(3)]
+    rolls = [get_random_int(1, 6) for i in range(3)]
     rollstr = '+'.join([str(i) for i in rolls])
     result = '投掷 {}: 3D6 = {} = {} '.format(description, rollstr, sum(rolls))
     return result
 
-
 def rolld100(o, description=''):
-    roll = random.randint(1, 100)
+    roll = get_random_int(1, 100)
 
 def roll_dice(cmd):
     result = dice_resolver(cmd, True)
@@ -140,7 +171,7 @@ def dice_resolver(dice_str, result_only=False):
                 dice_type = '6'
             num = int(num)
             dice_type = int(dice_type)
-            roll = sum([random.randint(1, dice_type) for j in range(num)])
+            roll = sum([get_random_int(1, dice_type) for j in range(num)])
             rolls.append(roll)
             continue
         else:
