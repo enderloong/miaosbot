@@ -46,7 +46,7 @@ class MiaosMessageResolver(object):
                 obj = int(cmd_and_args[1])
                 extra_dice = int(cmd_and_args[2])
                 if len(cmd_and_args) == 4:
-                    roll_str = fd.fag_check(obj, cmd_and_args[2], extra_dice)
+                    roll_str = fd.fag_check(obj, cmd_and_args[3], extra_dice)
                 else:
                     roll_str = fd.fag_check(obj, extra_dice=extra_dice)
                 return_data['output_data'] = roll_str
