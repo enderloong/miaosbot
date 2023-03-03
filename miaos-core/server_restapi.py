@@ -65,7 +65,7 @@ def get_direct_message():
             'error_type': str(e),
             'traceback': sys.exc_info()[2]
         }}
-    return return_dict
+    return json.dumps(return_dict, ensure_ascii=False)
     
 @app.route('/group_message', methods=['POST', 'GET'])
 def get_group_message():
@@ -113,7 +113,7 @@ def get_group_message():
             'error_type': str(e),
             'traceback': sys.exc_info()[2]
         }}
-    return return_dict
+    return json.dumps(return_dict, ensure_ascii=False)
 
 @app.route('/health', methods=['GET'])
 def get_healthy():

@@ -7,6 +7,7 @@ def convert_data_to_seed(data):
     return dataseed
 
 def getjrrp(user):
+    rnd_state = random.getstate()
     userseed = convert_data_to_seed(user)
     today = datetime.date.today().ctime()
     dateseed = convert_data_to_seed(today)
@@ -18,4 +19,5 @@ def getjrrp(user):
     random.seed(jrrpseed)
     jrrp = random.randint(1, 100)
     result = '今日的运势指数为 {} !'.format(jrrp)
+    random.setstate(rnd_state)
     return result

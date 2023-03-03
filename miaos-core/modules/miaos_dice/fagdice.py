@@ -11,7 +11,9 @@ if sys.version_info.minor < 7:
     
 def get_random_int(minv, maxv, idx=0):
     rnd_state = random.getstate()
-    random.seed(int(time.time() * 1000 + idx ** idx))
+    random.seed(int(time.time() * 100))
+    timeseed = random.randint(0, 10000) + idx
+    random.seed(timeseed)
     result = random.randint(minv, maxv)
     random.setstate(rnd_state)
     return result
@@ -19,6 +21,7 @@ def get_random_int(minv, maxv, idx=0):
 def rollnd6(num_d6=3, extra_dice=0, with_raw_result=False):
     
     raw_result = [get_random_int(1, 6, i) for i in range(num_d6 + abs(extra_dice))]
+    print(raw_result)
     raw_result.sort()
     rollsum = 0
     rolldes = ''

@@ -75,3 +75,11 @@ send_data = {
 json_data = json.dumps(send_data)
 r = requests.post(url, headers=header_dict, data=json_data, timeout=20000)
 print(r.json())
+
+
+# 4. check other functions
+url = "{}/direct_message".format(urlbase)
+send_data["message_content"] = ",m 吃啥"
+json_data = json.dumps(send_data)
+r = requests.post(url, headers=header_dict, data=json_data, timeout=20000)
+print(r.json())

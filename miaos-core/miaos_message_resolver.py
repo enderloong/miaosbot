@@ -8,7 +8,7 @@ from modules.jrrp.jrrp import getjrrp
 import data.pers.hj_gif as hj_gif
 import modules.miaos_help as miaos_help
 import modules.trpgmap.trpgmap as trpgmap
-
+from modules.m import chisha
 class MiaosMessageResolver(object):
     
     atauthor = ',m@author/m,'
@@ -96,6 +96,12 @@ class MiaosMessageResolver(object):
                     return_data['output_data'] = result
                 return return_data
 
+        if cmd_and_args[0] == 'm':
+            if len(cmd_and_args) > 1:
+                if cmd_and_args[1] in ['吃啥', '今天吃啥', '中午吃啥', '晚上吃啥', '等会吃啥']:
+                    return_data['output_data'] = chisha()
+                return return_data
+
         if cmd_and_args[0] == 'map':
             mapargs = cmd_and_args[1:]
             return_data['output_data'] = {
@@ -156,6 +162,10 @@ class MiaosMessageResolver(object):
         if cmd_and_args[0] == 'r':
             return_data['including_atauthor'] = True
             return_data['output_data'] = self.atauthor + direct_return_data['output_data']
+            return return_data
+        
+        if cmd_and_args[0] == 'm':
+            return_data['output_data'] = direct_return_data['output_data']
             return return_data
 
         if cmd_and_args[0] == 'map':
