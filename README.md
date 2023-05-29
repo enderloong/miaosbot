@@ -28,6 +28,16 @@ https://www.kookapp.cn/app/oauth2/authorize?id=11545&permissions=22528&client_id
 
 代码比较简陋，不排除后续大修的可能(也可能就咕了)。
 
+## 使用docker
+
+docker文件夹中存放了喵沌老师的运行环境，可以使用Dockerfile构建镜像。
+
+运行环境镜像也可以从dockerhub下载，命令为
+
+```bash
+docker pull enderloong/miaos_server_env:v0.1
+```
+
 ## 联系方式
 
 如果您对贡献本项目的代码感兴趣，或者使用时遇到了问题，欢迎直接联系我：

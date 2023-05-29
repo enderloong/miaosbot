@@ -6,11 +6,20 @@ import time
 import requests
 from khl import Bot, Message
 
-with open(os.path.join(os.path.dirname(__file__), 'config.json'), 'r', encoding='utf-8') as f:
-    config = json.load(f)
+config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+if os.environ.get('MIAOS_KOOK_CONFIG_PATH', ''):
+    config_path = os.environ.get('MIAOS_KOOK_CONFIG_PATH', '')
+config = {}
+if os.path.exists(config_path):
+    with open(config_path, 'r', encoding='utf-8') as f:
+        config = json.load(f)
 
 # init Bot
-bot = Bot(token=config['token'], )
+bot_token = config.get('token', '')
+if os.environ.get('MIAOS_KOOK_TOKEN', ''):
+    bot_token = os.environ.get('MIAOS_KOOK_TOKEN', '')
+
+bot = Bot(token=bot_token, )
 
 # ret_code:
 # -1: 失败

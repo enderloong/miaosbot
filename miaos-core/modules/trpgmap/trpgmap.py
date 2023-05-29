@@ -5,8 +5,11 @@ import json
 import os
 from os import path
 
+temp_dir = path.join(path.dirname(__file__), '..', '..', 'data', 'temp')
+if not path.exists(temp_dir):
+    os.mkdir(temp_dir)
+    
 cache_map_dir = path.join(path.dirname(__file__), '..', '..', 'data', 'temp', 'trpg_maps')
-
 if not path.exists(cache_map_dir):
     os.mkdir(cache_map_dir)
 
